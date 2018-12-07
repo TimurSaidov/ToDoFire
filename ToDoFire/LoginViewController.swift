@@ -20,11 +20,16 @@ class LoginViewController: UIViewController {
     @IBAction func registerButtonTapped(_ sender: UIButton) {
     }
     
+    @IBAction func returnTextFieldPressed(_ sender: UITextField) {
+        sender.resignFirstResponder() // resignFirstResponder уведомляет sender: UITextField о том, что его попросили отказаться от статуса первого ответчика во view, т.е. при нажатии return на клавиатуре sender'а клавиатура скрывается.
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
     }
-
-
+    
+    // При нажатии на любое место view, клавиатура Text Field'а, Text View убирается.
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
 }
-

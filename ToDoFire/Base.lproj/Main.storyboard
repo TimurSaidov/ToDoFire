@@ -46,12 +46,18 @@
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
+                                                <connections>
+                                                    <action selector="returnTextFieldPressed:" destination="BYZ-38-t0r" eventType="primaryActionTriggered" id="iru-O3-nYe"/>
+                                                </connections>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PVr-1L-m6Y">
                                                 <rect key="frame" x="0.0" y="40" width="240" height="30"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                                <connections>
+                                                    <action selector="returnTextFieldPressed:" destination="BYZ-38-t0r" eventType="primaryActionTriggered" id="zGf-qx-O9r"/>
+                                                </connections>
                                             </textField>
                                         </subviews>
                                         <constraints>
