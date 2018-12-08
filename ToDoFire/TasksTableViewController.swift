@@ -54,6 +54,28 @@ class TasksTableViewController: UITableViewController {
         ref = Database.database().reference(withPath: "users").child(user.uid).child("tasks") // Ссылка на задачи конкретного пользователя user(currentUser) в базе данных Firebase.
         print("ref - \(String(describing: ref))")
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        ref.observe(DataEventType.value) { [weak self] (snapshot) in // Поскльку ref = Database.database().reference(withPath: "users").child(user.uid).child("tasks"), то snapshot - это целый список задач, массив задач.
+            var _tasks: [Task] = []
+            
+            for item in snapshot.children {
+                let task = Task(snapshot: item as! DataSnapshot)
+                _tasks.append(task)
+            }
+            
+            self?.tasks = _tasks
+            self?.tableView.reloadData()
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        
+        ref.removeAllObservers() // Удаление наблюдателя для того, чтобы не было предупреждений.
+    }
 
     // MARK: - Table view data source
 
@@ -64,13 +86,15 @@ class TasksTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 1
+        return tasks.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
 
-        // Configure the cell...
+        let task = tasks[indexPath.row]
+        cell.textLabel?.text = task.title
+        cell.textLabel?.textColor = .white
         
         return cell
     }

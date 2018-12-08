@@ -23,8 +23,6 @@ class LoginViewController: UIViewController {
             return
         }
         
-        
-        
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] (user, error) in
             if error != nil {
                 self?.displayWarningLabel(withText: error!.localizedDescription)
@@ -63,8 +61,8 @@ class LoginViewController: UIViewController {
             }
             
             let user = Auth.auth().currentUser
-            let userRef = self?.ref.child((user?.uid)!)
-            userRef!.setValue(["email": user?.email])
+            let userRef = self?.ref.child((user?.uid)!) // Создание ссылки для директории контретного пользователя в директории users.
+            userRef!.setValue(["email": user?.email]) // В директории users/user.uid записывается значение email.
         }
     }
     
