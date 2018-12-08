@@ -10,11 +10,11 @@ import Foundation
 import Firebase
 
 struct MyUser {
-    let id: String
+    let uid: String
     let email: String
     
     init(user: User) {
-        self.id = user.uid
+        self.uid = user.uid
         self.email = user.email!
     }
 }

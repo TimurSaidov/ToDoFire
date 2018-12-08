@@ -10,6 +10,8 @@ import UIKit
 import Firebase
 
 class LoginViewController: UIViewController {
+    
+    var ref: DatabaseReference!
 
     @IBOutlet weak var warningLabel: UILabel!
     @IBOutlet weak var emailTextField: UITextField!
@@ -20,6 +22,8 @@ class LoginViewController: UIViewController {
             displayWarningLabel(withText: "Information is incorrect!")
             return
         }
+        
+        
         
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] (user, error) in
             if error != nil {
@@ -53,15 +57,14 @@ class LoginViewController: UIViewController {
         }
         
         Auth.auth().createUser(withEmail: email, password: password) { [weak self] (user, error) in
-            if error == nil {
-                if user != nil {
-                    self?.performSegue(withIdentifier: "tasksSegue", sender: nil)
-                } else {
-                    self?.displayWarningLabel(withText: "User is not created!")
-                }
-            } else {
+            guard error == nil, user != nil else {
                 self?.displayWarningLabel(withText: error!.localizedDescription)
+                return
             }
+            
+            let user = Auth.auth().currentUser
+            let userRef = self?.ref.child((user?.uid)!)
+            userRef!.setValue(["email": user?.email])
         }
     }
     
@@ -71,6 +74,8 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        ref = Database.database().reference(withPath: "users")
         
         warningLabel.isHidden = true
         
